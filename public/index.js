@@ -1,3 +1,7 @@
+// API URLs
+
+const beersURL = "https://api.punkapi.com/v2/beers";
+
 //  GENERIC API FUNCTIONS
 
 const makeRequest = function(url, callback){
@@ -12,6 +16,10 @@ const makeRequest = function(url, callback){
 
 
 /// BEERS FUNCTIONS
+
+const populateBeersSelect = function(){
+  makeRequest(beersURL, displayBeers);
+}
 
 const displayBeers = function(){
   if(this.status !== 200) return;
@@ -102,15 +110,15 @@ const formatNameToList = function(arrayOfObjects){
 //  APP
 var app = function(){
 
-  const beersURL = "https://api.punkapi.com/v2/beers";
-  makeRequest(beersURL, displayBeers);
+  populateBeersSelect();
+
+  
+
 
 }
 
 // EXTENSIONS
 
-// Add a list of ingredients for each beer
-// There are 3 different types of "ingredients" on the beer object we get back - "malt", "hops", and "yeast". You can choose which to display, or if you're feeling ambitious, try to combine all three into one array and display them all.
 // Refactor to only show details about one beer, and add a dropdown to select the beer to display
 
 
