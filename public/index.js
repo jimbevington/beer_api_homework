@@ -1,4 +1,22 @@
+const makeRequest = function(url, callback){
+  const request = new XMLHttpRequest();   //  a request object
+
+  request.open('GET', url); // make the request
+
+  request.addEventListener('load', callback)  //  when response, exec callback
+
+  request.send();
+};
+
+
+
+
+
+
 var app = function(){
+
+  const beersURL = "https://api.punkapi.com/v2/beers";
+  makeRequest(beersURL, displayBeers);
 
 }
 
