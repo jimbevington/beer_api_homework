@@ -28,6 +28,6 @@ header {
 #beer-display {
   margin: 3em;
   font-size: 0.8em;
-  max-width: 300px;
-  min-width: 300px;
+  max-width: 400px;
+  min-width: 400px;
 }

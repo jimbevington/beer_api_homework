@@ -43,6 +43,8 @@ const populateBeersSelect = function (beers){
 
 }
 
+// UNUSED CODE FROM BEERS LIST
+
 // const displayBeers = function(){
 //   if(this.status !== 200) return;
 //
@@ -64,6 +66,7 @@ const populateBeersSelect = function (beers){
 //   })
 // }
 
+//    refactored from makeBeerListItem
 const makeBeerDiv = function(beer){
 
   const beerDiv = document.createElement('div');
