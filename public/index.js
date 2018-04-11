@@ -30,7 +30,14 @@ const populateBeersList = function(beers){
     const name = document.createElement('h5');
     name.innerText = beer.name;
 
-    beerDiv.appendChild(name);
+    const img = document.createElement('img');
+    img.className = 'beer-img';
+    img.src = beer.image_url;
+
+    for (let element of [name, img]){
+      beerDiv.appendChild(element);
+    }
+
     ul.appendChild(beerDiv);
 
   })
