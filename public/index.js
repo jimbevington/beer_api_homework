@@ -9,8 +9,32 @@ const makeRequest = function(url, callback){
 };
 
 
+const displayBeers = function(){
+  if(this.status !== 200) return;
 
+  const jsonString = this.responseText;
+  const beers = JSON.parse(jsonString);
 
+  populateBeersList(beers);
+
+}
+
+const populateBeersList = function(beers){
+  const ul = document.getElementById('beers-list');
+
+  beers.forEach(beer => {
+
+    const beerDiv = document.createElement('li');
+    beerDiv.className = 'beer-info';
+
+    const name = document.createElement('h5');
+    name.innerText = beer.name;
+
+    beerDiv.appendChild(name);
+    ul.appendChild(beerDiv);
+
+  })
+}
 
 
 var app = function(){
