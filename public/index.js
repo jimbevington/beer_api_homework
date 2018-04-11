@@ -46,9 +46,7 @@ const makeBeerListItem = function(beer){
   img.className = 'beer-img';
   img.src = beer.image_url;
 
-  const ingredients = document.createElement('div');
-  ingredients.className = 'ingredients';
-  ingredients.innerHTML = formatIngredients(beer);
+  const ingredients = formatIngredients(beer);
 
   for (let element of [name, img, ingredients]){
     beerDiv.appendChild(element);
@@ -58,20 +56,47 @@ const makeBeerListItem = function(beer){
 }
 
 const formatIngredients = function(beer){
-  // get the individual hops
+
+  const ingredients = document.createElement('div');
+  ingredients.className ='ingredients';
+  ingredients.innerHTML = "<h6>Ingredients</h6>";
+
   const hops = beer.ingredients.hops;
+  const uniqHops = _.uniqBy(hops, 'name');
   const malt = beer.ingredients.malt;
   const yeast = beer.ingredients.yeast;
 
-  const testArray = [1, 1, 1, 2, 3];
-  const uniques = [];
-  // Ingredients Label:
-  // Hops: x, y, z
-  // Malt: x, y, z
-  // Yeast: x
+  const hopsList = document.createElement('div');
+  const hopsString = formatNameToList(uniqHops);
+  hopsList.innerText = "Hops -   " + hopsString
+
+  const maltList = document.createElement('div');
+  const maltString = formatNameToList(malt);
+  maltList.innerText = "Malt -   " + maltString;
+
+  const yeastTag = document.createElement('div');
+  yeastTag.innerText = "Yeast -   " + yeast
+
+  // need to make a function for this
+  for (let element of [hopsList, maltList, yeastTag]){
+    ingredients.appendChild(element);
+  }
+
+  return ingredients;
 
 }
 
+const formatNameToList = function(arrayOfObjects){
+  let output = '';
+  for (let i = 0; i < arrayOfObjects.length; i++){
+    let obj = arrayOfObjects[i];
+    output = output.concat(obj.name);
+    if (i != (arrayOfObjects.length - 1)) {
+      output = output.concat(", ");
+    }
+  }
+  return output;
+}
 
 
 //  APP
