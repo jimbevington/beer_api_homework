@@ -17,8 +17,30 @@ const makeRequest = function(url, callback){
 
 /// BEERS FUNCTIONS
 
-const populateBeersSelect = function(){
-  makeRequest(beersURL, displayBeers);
+const initializeBeers = function(){
+  makeRequest(beersURL, function(){
+
+    if(this.status !== 200) return;
+
+    const jsonString = this.responseText;
+    const beers = JSON.parse(jsonString);
+
+    populateBeersSelect(beers);
+  });
+}
+
+const populateBeersSelect = function (beers){
+
+  const beerSelect = document.getElementById('beer-select');
+
+  // add each Beer as a Select Option
+  beers.forEach(beer => {
+    const option = document.createElement('option');
+    option.value = beer.name;
+    option.innerText = beer.name;
+    beerSelect.appendChild(option);
+  })
+
 }
 
 const displayBeers = function(){
@@ -110,9 +132,9 @@ const formatNameToList = function(arrayOfObjects){
 //  APP
 var app = function(){
 
-  populateBeersSelect();
+  initializeBeers();
 
-  
+
 
 
 }
