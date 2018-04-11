@@ -64,12 +64,13 @@ const populateBeersSelect = function (beers){
 //   })
 // }
 
-const makeBeerListItem = function(beer){
+const makeBeerDiv = function(beer){
 
-  const beerDiv = document.createElement('li');
+  const beerDiv = document.createElement('div');
   beerDiv.className = 'beer-info';
 
-  const name = document.createElement('h5');
+  const name = document.createElement('h2');
+  name.className = 'beer-title';
   name.innerText = beer.name;
 
   const img = document.createElement('img');
@@ -89,7 +90,7 @@ const formatIngredients = function(beer){
 
   const ingredients = document.createElement('div');
   ingredients.className ='ingredients';
-  ingredients.innerHTML = "<h6>Ingredients</h6>";
+  ingredients.innerHTML = "<h4>Ingredients</h4>";
 
   const hops = beer.ingredients.hops;
   const uniqHops = _.uniqBy(hops, 'name');
@@ -151,7 +152,11 @@ const getSelectedBeer = function(beers){
 }
 
 const displayBeer = function(beer){
-  const beerContainer = document.getElementById('beer-display')
+  const beerContainer = document.getElementById('beer-display');
+  beerContainer.innerHTML = '';   //  clear any previously displayed Beers
+
+  const beerInfo = makeBeerDiv(beer);   // generate Beer Info
+  beerContainer.appendChild(beerInfo);
 }
 
 //  APP
@@ -163,10 +168,5 @@ var app = function(){
   beerSelect.addEventListener('change', selectBeer);
 
 }
-
-// EXTENSIONS
-
-// Refactor to only show details about one beer, and add a dropdown to select the beer to display
-
 
 window.addEventListener('load', app);
