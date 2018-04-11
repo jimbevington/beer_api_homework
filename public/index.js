@@ -1,3 +1,5 @@
+//  GENERIC API FUNCTIONS
+
 const makeRequest = function(url, callback){
   const request = new XMLHttpRequest();   //  a request object
 
@@ -8,6 +10,8 @@ const makeRequest = function(url, callback){
   request.send();
 };
 
+
+/// BEERS FUNCTIONS
 
 const displayBeers = function(){
   if(this.status !== 200) return;
@@ -20,49 +24,63 @@ const displayBeers = function(){
 }
 
 const populateBeersList = function(beers){
+
   const ul = document.getElementById('beers-list');
 
   beers.forEach(beer => {
-
-    const beerDiv = document.createElement('li');
-    beerDiv.className = 'beer-info';
-
-    const name = document.createElement('h5');
-    name.innerText = beer.name;
-
-    const img = document.createElement('img');
-    img.className = 'beer-img';
-    img.src = beer.image_url;
-
-    for (let element of [name, img]){
-      beerDiv.appendChild(element);
-    }
-
+    const beerDiv = makeBeerListItem(beer);
     ul.appendChild(beerDiv);
 
   })
 }
 
+const makeBeerListItem = function(beer){
 
+  const beerDiv = document.createElement('li');
+  beerDiv.className = 'beer-info';
+
+  const name = document.createElement('h5');
+  name.innerText = beer.name;
+
+  const img = document.createElement('img');
+  img.className = 'beer-img';
+  img.src = beer.image_url;
+
+  const ingredients = document.createElement('div');
+  ingredients.className = 'ingredients';
+  ingredients.innerHTML = formatIngredients(beer);
+
+  for (let element of [name, img, ingredients]){
+    beerDiv.appendChild(element);
+  }
+
+  return beerDiv;
+}
+
+const formatIngredients = function(beer){
+  // get the individual hops
+  const hops = beer.ingredients.hops;
+  const malt = beer.ingredients.malt;
+  const yeast = beer.ingredients.yeast;
+
+  const testArray = [1, 1, 1, 2, 3];
+  const uniques = [];
+  // Ingredients Label:
+  // Hops: x, y, z
+  // Malt: x, y, z
+  // Yeast: x
+
+}
+
+
+
+//  APP
 var app = function(){
 
   const beersURL = "https://api.punkapi.com/v2/beers";
   makeRequest(beersURL, displayBeers);
 
 }
-
-
-
-// Make an XMLHttpRequest to get data on brewdog beers back from this API: https://api.punkapi.com/v2/beers
-//
-// The API can occasionally be unreliable, here's an alternate url - https://s3-eu-west-1.amazonaws.com/brewdogapi/beers.json
-//
-// Display a list of the names of the beers
-//
-// try to use small, reuseable functions, for example, one to handle looping through all the data, then using a separate function to create and render each item into the list.
-// Add an <img> to each beer
-//
-// there is an "image_url" key on the beer objects we get back from the API
 
 // EXTENSIONS
 
