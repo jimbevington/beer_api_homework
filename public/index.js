@@ -43,26 +43,26 @@ const populateBeersSelect = function (beers){
 
 }
 
-const displayBeers = function(){
-  if(this.status !== 200) return;
-
-  const jsonString = this.responseText;
-  const beers = JSON.parse(jsonString);
-
-  populateBeersList(beers);
-
-}
-
-const populateBeersList = function(beers){
-
-  const ul = document.getElementById('beers-list');
-
-  beers.forEach(beer => {
-    const beerDiv = makeBeerListItem(beer);
-    ul.appendChild(beerDiv);
-
-  })
-}
+// const displayBeers = function(){
+//   if(this.status !== 200) return;
+//
+//   const jsonString = this.responseText;
+//   const beers = JSON.parse(jsonString);
+//
+//   populateBeersList(beers);
+//
+// }
+//
+// const populateBeersList = function(beers){
+//
+//   const ul = document.getElementById('beers-list');
+//
+//   beers.forEach(beer => {
+//     const beerDiv = makeBeerListItem(beer);
+//     ul.appendChild(beerDiv);
+//
+//   })
+// }
 
 const makeBeerListItem = function(beer){
 
@@ -128,14 +128,39 @@ const formatNameToList = function(arrayOfObjects){
   return output;
 }
 
+const selectBeer = function(){
+  makeRequest(beersURL, function(){
+
+    if(this.status !== 200) return;
+
+    const jsonString = this.responseText;
+    const beers = JSON.parse(jsonString);
+
+    const beer = getSelectedBeer(beers);
+
+    displayBeer(beer);
+  });
+}
+
+const getSelectedBeer = function(beers){
+
+  const beerSelect = document.getElementById('beer-select');
+  const selectedBeer = _.find(beers, {name: beerSelect.value});
+
+  return selectedBeer;
+}
+
+const displayBeer = function(beer){
+  const beerContainer = document.getElementById('beer-display')
+}
 
 //  APP
 var app = function(){
 
-  initializeBeers();
+  initializeBeers(); // populate SELECT with Beers List
 
-
-
+  const beerSelect = document.getElementById('beer-select');
+  beerSelect.addEventListener('change', selectBeer);
 
 }
 
