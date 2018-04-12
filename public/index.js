@@ -1,7 +1,3 @@
-// API URLs
-
-const beersURL = "https://api.punkapi.com/v2/beers";
-
 //  GENERIC API FUNCTIONS
 
 const makeRequest = function(url, callback){
@@ -17,21 +13,28 @@ const makeRequest = function(url, callback){
 
 /// BEERS FUNCTIONS
 
-const initializeBeers = function(){
-  makeRequest(beersURL, function(){
+const initializeBeers = function(url){
+  makeRequest(url, function(){
 
     if(this.status !== 200) return;
 
     const jsonString = this.responseText;
     const beers = JSON.parse(jsonString);
 
-    populateBeersSelect(beers);
+    const beerSelect = document.getElementById('beer-select');
+
+    populateBeersSelect(beerSelect, beers);
+
+    // beerSelect.addEventListener('change', selectBeer);
+    beerSelect.addEventListener('change', function(){
+      selectBeer(beers);
+    });
+
+
   });
 }
 
-const populateBeersSelect = function (beers){
-
-  const beerSelect = document.getElementById('beer-select');
+const populateBeersSelect = function (beerSelect, beers){
 
   // add each Beer as a Select Option
   beers.forEach(beer => {
@@ -42,29 +45,6 @@ const populateBeersSelect = function (beers){
   })
 
 }
-
-// UNUSED CODE FROM BEERS LIST
-
-// const displayBeers = function(){
-//   if(this.status !== 200) return;
-//
-//   const jsonString = this.responseText;
-//   const beers = JSON.parse(jsonString);
-//
-//   populateBeersList(beers);
-//
-// }
-//
-// const populateBeersList = function(beers){
-//
-//   const ul = document.getElementById('beers-list');
-//
-//   beers.forEach(beer => {
-//     const beerDiv = makeBeerListItem(beer);
-//     ul.appendChild(beerDiv);
-//
-//   })
-// }
 
 //    refactored from makeBeerListItem
 const makeBeerDiv = function(beer){
@@ -79,6 +59,7 @@ const makeBeerDiv = function(beer){
   const img = document.createElement('img');
   img.className = 'beer-img';
   img.src = beer.image_url;
+  img.alt = beer.name;  //  add the beers name as an alternative
 
   const ingredients = formatIngredients(beer);
 
@@ -132,18 +113,9 @@ const formatNameToList = function(arrayOfObjects){
   return output;
 }
 
-const selectBeer = function(){
-  makeRequest(beersURL, function(){
-
-    if(this.status !== 200) return;
-
-    const jsonString = this.responseText;
-    const beers = JSON.parse(jsonString);
-
-    const beer = getSelectedBeer(beers);
-
-    displayBeer(beer);
-  });
+const selectBeer = function(beers){
+  const beer = getSelectedBeer(beers);
+  displayBeer(beer);
 }
 
 const getSelectedBeer = function(beers){
@@ -165,10 +137,9 @@ const displayBeer = function(beer){
 //  APP
 var app = function(){
 
-  initializeBeers(); // populate SELECT with Beers List
+  const beersURL = "https://api.punkapi.com/v2/beers";
 
-  const beerSelect = document.getElementById('beer-select');
-  beerSelect.addEventListener('change', selectBeer);
+  initializeBeers(beersURL); // populate SELECT with Beers List
 
 }
 
